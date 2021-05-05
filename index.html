@@ -1,0 +1,53 @@
+<!DOCTYPEhtml>
+<html>
+    <head>
+        <metacharset="utf-8">
+        <title>OpenWeather</title>
+        <linkhref="https://fonts.googleapis.com/css?family=Faster+One"rel="stylesheet">
+        <linkrel="stylesheet"href="ajax.css">
+    </head>
+    <body>
+            <header>
+            </header>
+            <section>
+            </section>
+
+            <script type="text/javascript">
+            var header=document.querySelector('header');
+            var section=document.querySelector('section');
+            var requestURL='http://api.openweathermap.org/data/2.5/weather?id=703464';
+            requestURL=requestURL+'&appid=04f9aefa52309fd7c768f2e53c568a47';
+            var request=new XMLHttpRequest();
+            request.open('GET',requestURL);
+            request.responseType='json';
+            request.send();
+            request.onload=function(){
+                var cityweather_json=request.response;
+                showWeather(cityweather_json);
+            }
+            function showWeather(jsonObj){
+                var d=new Date();
+                var sHead="Кузнецовськ,поточна дата:"+d.toDateString(d)+"р.";
+                Head=sHead+"Довгота:"+jsonObj.coord.lon+"Широта:"+jsonObj.coord.lat;
+                var myArticle = document.createElement('article');
+                var myH1=document.createElement('h1');
+                myH1.textContent=sHead;
+                myArticle.appendChild(myH1);
+               
+                section.appendChild(myArticle);
+                var myArticle=document.createElement('article');
+                var myPara1=document.createElement('p');
+                var myPara2=document.createElement('p');
+                var myPara3=document.createElement('p');
+                var t1=Math.round(jsonObj.main.temp-273.16);
+                var t2=Math.round(jsonObj.main.feels_like-273.16);
+                myPara1.textContent='Температура:'+t1+" градусів по Цельсію";
+                myPara2.textContent='Відчуваєтьсяяк:'+t2+" градусів по Цельсію";
+                myPara3.textContent='Вітер:'+jsonObj.wind.speed+" м/сек";
+                myArticle.appendChild(myPara1);
+                myArticle.appendChild(myPara2);
+                myArticle.appendChild(myPara3);
+                section.appendChild(myArticle);}
+        </script>
+    </body>
+</html>
